@@ -1,0 +1,44 @@
+<?php
+
+$host="localhost";
+$user="root";
+$password="";
+$db="funolympic";
+
+session_start();
+
+
+$data=mysqli_connect($host,$user,$password,$db);
+if($data===false)
+{
+   die("connection error");
+}
+
+
+
+
+
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+   $username=$_POST["username"];
+   $usertype=$_POST["usertype"];
+   $email = $_POST["email"];
+   $contact = $_POST["contact"];
+   $gender = $_POST["gender"];
+   $country = $_POST["country"];
+
+
+    if ($data->connect_error) {
+        die("Connection to server failed: " . $data->connect_error);
+    }
+    $query = "UPDATE login SET username = '$username',usertype = '$usertype' ,email = '$email',contact = '$contact', gender = '$gender',country = '$country' WHERE id='" . $_GET["id"] . "' ";
+    if ($data->query($query) ==  TRUE) {
+        echo "Specified Records updated...[OK]", "\n";
+    }
+    else {
+        echo "Record Update Fail...[Error]", "\n";
+    }
+    $data->close();
+    header("Location: allusers.php");
+
+};
